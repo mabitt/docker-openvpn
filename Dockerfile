@@ -2,7 +2,7 @@ FROM docker.io/ubuntu:xenial
 MAINTAINER MAB <mab@mab.net>
 
 # Keep image updated
-ENV REFRESHED_AT 2017-06-30-00-00Z
+ENV REFRESHED_AT 2017-10-23-00-00Z
 
 ENV LANG C.UTF-8
 
