@@ -123,7 +123,7 @@ cipher $MY_CIPHER
 remote $MY_IP_ADDR 1194 udp
 </connection>
 <connection>
-remote $MY_IP_ADDR 443 tcp-client
+remote $MY_IP_ADDR 1194 tcp-client
 </connection>
 EOF
 fi
