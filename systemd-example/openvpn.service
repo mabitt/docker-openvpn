@@ -9,7 +9,7 @@ ExecStartPre=-/usr/bin/docker pull edgard/openvpn
 ExecStartPre=-/usr/bin/docker stop openvpn
 ExecStartPre=-/usr/bin/docker kill openvpn
 ExecStartPre=-/usr/bin/docker rm openvpn
-ExecStart=/usr/bin/docker run --name openvpn --privileged -p 1194:1194/udp -v /srv/openvpn:/data edgard/openvpn
+ExecStart=/usr/bin/docker run --name openvpn --privileged -p 1194:1194 -p 1194:1194/udp -v /srv/openvpn:/data mabitt/openvpn
 ExecStop=/usr/bin/docker stop openvpn
 
 [Install]

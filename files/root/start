@@ -42,6 +42,15 @@ if [ ! -f /etc/openvpn/cert.pem ]; then
   openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 24855
 fi
 
+[ "$MY_DNS" ] || {
+  echo "DNS not specified, using default"
+  MY_DNS=8.8.8.8
+}
+[ "$MY_CIPHER" ] || {
+  echo "CIPHER not specified, using default"
+  MY_CIPHER=AES-256-CBC
+}
+
 # Generate config if it doesnt exists
 if [ ! -f /etc/openvpn/udp1194.conf ]; then cat >/etc/openvpn/udp1194.conf <<EOF
 server 192.168.255.0 255.255.255.128
@@ -51,22 +60,22 @@ key key.pem
 ca cert.pem
 cert cert.pem
 dh dh.pem
+cipher $MY_CIPHER
 keepalive 10 60
 persist-key
 persist-tun
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+push "dhcp-option DNS $MY_DNS"
 push "redirect-gateway bypass-dhcp"
 push "route-metric 512"
 push "route 0.0.0.0 0.0.0.0"
 proto udp
 port 1194
-dev tun1194
-status openvpn-status-1194.log
+dev tun1
+status openvpn-status-udp.log
 EOF
 fi
 
-if [ ! -f /etc/openvpn/tcp443.conf ]; then cat >/etc/openvpn/tcp443.conf <<EOF
+if [ ! -f /etc/openvpn/tcp1194.conf ]; then cat >/etc/openvpn/tcp1194.conf <<EOF
 server 192.168.255.128 255.255.255.128
 verb 3
 duplicate-cn
@@ -74,18 +83,18 @@ key key.pem
 ca cert.pem
 cert cert.pem
 dh dh.pem
+cipher $MY_CIPHER
 keepalive 10 60
 persist-key
 persist-tun
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+push "dhcp-option DNS $MY_DNS"
 push "redirect-gateway bypass-dhcp"
 push "route-metric 512"
 push "route 0.0.0.0 0.0.0.0"
 proto tcp-server
-port 443
-dev tun443
-status openvpn-status-443.log
+port 1194
+dev tun2
+status openvpn-status-tcp.log
 EOF
 fi
 
@@ -100,6 +109,7 @@ client
 nobind
 dev tun
 redirect-gateway def1 bypass-dhcp
+cipher $MY_CIPHER
 <key>
 `cat /etc/openvpn/key.pem`
 </key>
