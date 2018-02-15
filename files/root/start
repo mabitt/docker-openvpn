@@ -110,6 +110,15 @@ nobind
 dev tun
 redirect-gateway def1 bypass-dhcp
 cipher $MY_CIPHER
+#
+# Only on linux client, you may also need following directives:
+# script-security 2
+# up /etc/openvpn/update-resolv-conf
+# down /etc/openvpn/update-resolv-conf
+#
+# if using systemd-resolved check this project:
+# https://github.com/jonathanio/update-systemd-resolved
+#
 <key>
 `cat /etc/openvpn/key.pem`
 </key>
