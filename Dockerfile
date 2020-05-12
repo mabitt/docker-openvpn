@@ -1,16 +1,16 @@
-FROM docker.io/ubuntu:xenial
+FROM docker.io/ubuntu:focal
 MAINTAINER MAB <mab@mab.net>
 
 # Keep image updated
-ENV REFRESHED_AT 2018-02-14-00-00Z
+ENV REFRESHED_AT 2020-05-12-00-00Z
 
 ENV LANG C.UTF-8
 
 # Add repositories and update base
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse" > /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list \
-  && echo "deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse" >> /etc/apt/sources.list \
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" > /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+  && echo "deb http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse" >> /etc/apt/sources.list \
   && apt-get update -q \
   && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -qy
 
